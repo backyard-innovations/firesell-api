@@ -1,0 +1,7 @@
+Copyright Backyard Innovations UK Ltd, (c) 2013.
+All Rights Reserved.
+
+This software API is licensed under the GNU Affero License version 3
+
+A copy of the license is available at:
+https://www.gnu.org/licenses/agpl-3.0.txt

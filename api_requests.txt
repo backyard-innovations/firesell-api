@@ -1,0 +1,6 @@
+# Copyright (c) 2013,  Backyard Innovations UK Ltd.
+#
+# a rough overview of new features
+#
+GET /auctions/auction_id/pictures/picture_id
+# rationale: for mobile app, to load/retrieve one pic at the time

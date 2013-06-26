@@ -1,28 +1,44 @@
 # Copyright (c) 2013,  Backyard Innovations UK Ltd.
 #
-# a rough first draft of the APIs
-# lor
+# A quick descriptions of the APIs
 
-GET /
-# placeholder page (index)
+/
+GET: returns placeholder page (index)
 
-GET /auctions/  
-# list auctions (debug only)
+# DEBUG ONLY
+/auctions/
+GET: list all auction 
 
-GET /auctions/auction_id
-# retrieves all public information on auction
+/auction/
+POST: starts an auction
+    parameters: ...
+        itemname
+        itemdesc
+        itemloc # location
+        itemprice
+    returns: 
+        via the Location: header, the ADMIN UUID
+        #a UUID to manage the auction (admin_uuid)
+        #a UUID to publish the auction (public_uuid)
 
-POST /auctions/auction_id 
-# performs a bid. 
-# parameters: 
-#   biddername
-#   amount  # the bid amount
-#   question
+/auction/admin_uuid
+GET: retrieves auction information + current status of all bids
+PUT: updates data
+POST: (?) creates a new admin_uuid?
 
-POST /auctions/
-# creates an auction
-# paramters:
-#   itemname
-#   itemdesc
-#   itemloc # location
-#   itemprice
+/auction/public_uuid
+GET: retrieves the public information
+POST: creates a new public_uuid for referrals #TODO
+    returns:
+        a new UUID bound to the current one (public_uuid)
+PUT: performs a bid
+    parameters: 
+        biddername
+        amount  # the bid amount
+        question
+
+/auction/public_uuid/media #TODO
+GET: retrieves all media files (images, video, etc.)
+    parameters:
+        # TODO allow user to download items singularly, for faster mobile loading
+

@@ -70,6 +70,9 @@ returns placeholder page (index)
 
 list all auctions (debug only!!)
 
+    GET /cleanup
+
+erases everything. You have been warned.
 
 
 Feature requests

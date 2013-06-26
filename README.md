@@ -4,49 +4,82 @@ See the LICENSE.txt file for licensing information.
 The license in license.txt is applicable to all files in this
 repository.
 
-== API description ==
+API description
+===============
 
-
-    GET /
-returns placeholder page (index)
-
-    GET /auctions
-list all auctions (debug only!!)
-
+Create Auction:
+---------------
     POST /auction/
 Starts an auction. 
 Parameters: 
-    desc
-Returns:
-    string: the ADMIN UUID (via the Location: header)
 
-    GET /auction/admin_uuid </code>
+    desc
+
+Returns:
+
+    Location: uuid
+
+The admin uuid (via the Location: header)
+
+Managing an auction:
+--------------------
+
+    GET /admin/uuid
+
 Retrieves auction information + current status of all bids
 
-    PUT /auction/admin_uuid: updates data
-TBD
+    PUT /admin/uuid: 
+    
+Updates data. TBD
 
-    POST: (?) creates a new admin_uuid?
-TBD
+    POST: /admin/uuid 
 
-    GET /auction/public_uuid
-Retrieves the public information
+Creates a new uuid for managment. TBD
+
+Displaying an auction:
+----------------------
+
+    GET /auction/uuid
+    
+Retrieves the available public information
 
     POST /auction/public_UUID
-TBD: creates a new public uuid for referrals 
+
+Creates a new public uuid for referrals. TBD
+
+Bidding:
+--------
 
     PUT /auction/public_uuid
-Performs a bid. 
-Parameters: 
+
+Performs a bid.  Parameters: 
+
     bidder
     amount
     contact
 
+
+Misc:
+-----
+
+    GET /
+
+returns placeholder page (index)
+
+    GET /auctions
+
+list all auctions (debug only!!)
+
+
+
+Feature requests
+================
+
+    GET /auctions/auction_id/pictures/picture_id
+rationale: for mobile app, to load/retrieve one pic at the time
+
     GET /auction/public_uuid/media 
+
 retrieves all media files (images, video, etc.)
 parameters: the number of images (for mobile?)
 TBD
-
-== Feature requests ==
-    GET /auctions/auction_id/pictures/picture_id
-rationale: for mobile app, to load/retrieve one pic at the time

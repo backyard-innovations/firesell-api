@@ -4,6 +4,16 @@ See the LICENSE.txt file for licensing information.
 The license in license.txt is applicable to all files in this
 repository.
 
+Quick start:
+------------
+    curl -X POST -H "Content-Type: application/json" -d '{"desc":"test auction"}' http://localhost:8080/auction -v
+
+Would yield something like:
+
+    < Location: /admin/9eda6155-35c5-4542-a330-ba8eb1f9dfa6
+
+The returned Location: is the destination URL.
+
 API description
 ===============
 

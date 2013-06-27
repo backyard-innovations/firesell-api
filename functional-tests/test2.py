@@ -6,7 +6,9 @@ import mimetools
 import collections
 
 baseurl = 'http://localhost:8080' 
-
+import os
+if os.getenv("BASEURL") is not None:
+    baseurl = os.getenv("BASEURL")
 
 # beautiful, but no longer used. Yet, worth keeping ;)
 # from http://stackoverflow.com/a/1254499/204634

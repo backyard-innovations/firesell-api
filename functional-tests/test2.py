@@ -1,5 +1,5 @@
+import urllib
 import urllib2
-from nose.tools import with_setup
 import unittest
 import json
 import mimetools
@@ -80,6 +80,34 @@ class testFiresell(unittest.TestCase):
                 auction['admin_url'] = url
         # save
         self.createdAuctions.append(auction)
+
+    # ugly; do properly, merge with above
+    def test_15createAuctionNonJson(self):
+        auction = {'desc': 'test desc non-json'}
+        data = urllib.urlencode(auction)
+        req = urllib2.Request(baseurl + '/auction', data, 
+                {'Content-Type': 'application/x-www-form-urlencoded'})
+        f = urllib2.urlopen(req)
+        # status
+        status = f.getcode()
+        # headers
+        meta = f.info()
+        # data
+        response = f.read()
+        f.close()
+
+        assert (status == 201) # resource created
+        # find the new location and save it
+        for header in meta.headers:
+            if 'Location: ' in header:
+                # get whatever it's after 'Location: '
+                # returns a list, so get the second item
+                url = header.split('Location: ', 1)[1]
+                url = url.rstrip('\r\n')
+                auction['admin_url'] = url
+        # save
+        self.createdAuctions.append(auction)
+
         
     # testing the Location result
     def test_20getAuctionAdminInfo(self):

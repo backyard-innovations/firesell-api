@@ -6,13 +6,31 @@ repository.
 
 Quick start:
 ------------
-    curl -X POST -H "Content-Type: application/json" -d '{"desc":"test auction"}' http://localhost:8080/auction -v
+    curl -v -X POST -H "Content-Type: application/json" -d '{"itemName":"test auction"}' http://:URL/auction 
+
+Where :URL is the remote web server (or your local instance) such as somethingsomething.elasticbeanstalk.com.
 
 Would yield something like:
 
     < Location: /admin/9eda6155-35c5-4542-a330-ba8eb1f9dfa6
 
-The returned Location: is the destination URL.
+The returned Location: is the destination URL. If you query that, 
+
+    curl http://:URL/admin/9eda6155-35c5-4542-a330-ba8eb1f9dfa6
+
+You will receive a JSON array containing, amongst other things, something like
+
+    "public_urls": ["6-2303-40cf-a9fe-9a1079e78f00"]
+
+That value is your public URL:
+
+    curl http://:URL/auction/6-2303-40cf-a9fe-9a1079e78f00
+
+If you want to bid, you can PUT on it:
+
+    curl -v -X PUT -H "Content-Type: application/json" -d '{"bidder":"who am I", "amount":"lots", "contact":"me@example.com"}' http://:URL/auction/:id
+
+where :id is the string above (150f85d6-2303-40cf-a9fe-9a1079e78f00)
 
 API description
 ===============

@@ -55,7 +55,8 @@ class testFiresell(unittest.TestCase):
     #    assert (status == 200)
 
     def test_10createAuction(self):
-        auction = {'desc': 'test desc'}
+        auction = {'itemDesc': 'test desc',
+                'itemName': 'test name'}
         data = json.dumps(auction)
         req = urllib2.Request(baseurl + '/auction', 
                 data, 
@@ -83,7 +84,8 @@ class testFiresell(unittest.TestCase):
 
     # ugly; do properly, merge with above
     def test_15createAuctionNonJson(self):
-        auction = {'desc': 'test desc non-json'}
+        auction = {'itemDesc': 'test desc non-json',
+                'itemName': 'test item name'}
         data = urllib.urlencode(auction)
         req = urllib2.Request(baseurl + '/auction', data, 
                 {'Content-Type': 'application/x-www-form-urlencoded'})
@@ -123,9 +125,9 @@ class testFiresell(unittest.TestCase):
             response = f.read()
             f.close()
             assert (status == 200) # hit
-            desc = json.loads(response)
-            assert (desc['desc'] == auction['desc'])
-            auction['public_urls'] = desc['public_urls']
+            resp = json.loads(response)
+            assert (resp['itemDesc'] == auction['itemDesc'])
+            auction['public_urls'] = resp['public_urls']
 
     def test_30getAuctionInfo(self):
         for auction in self.createdAuctions:
@@ -142,7 +144,7 @@ class testFiresell(unittest.TestCase):
                 f.close()
                 assert (status == 200) # hit
                 data = json.loads(response)
-                assert (data['desc'] == auction['desc'])
+                assert (data['itemDesc'] == auction['itemDesc'])
 
     # make bid
     def test_40bid(self, 

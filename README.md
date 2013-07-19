@@ -19,48 +19,59 @@ API description
 
 Create Auction:
 ---------------
+
     POST /auction/
+
 Starts an auction. 
+
 Parameters: 
 
-    desc
+    itemName   a quick description of the item
+    itemDesc    a more lenghty description
+    idealPrice  a hint
+    startDate   
+    endDate
 
-Returns:
+Returns the HEADER:
 
     Location: uuid
 
-The admin uuid (via the Location: header)
+Which is the admin uuid. 
 
 Managing an auction:
 --------------------
 
-    GET /admin/uuid
+    GET /admin/:uuid
 
 Retrieves auction information + current status of all bids
 
-    PUT /admin/uuid: 
+    PUT /admin/:uuid
     
-Updates data. TBD
+Updates data. TODO
 
-    POST: /admin/uuid 
+    POST /admin/:uuid 
 
-Creates a new uuid for managment. TBD
+Creates a new uuid for managment. TODO
+
+    DELETE /admin/:uuid
+
+Deletes an auction. TODO
 
 Displaying an auction:
 ----------------------
 
-    GET /auction/uuid
+    GET /auction/:uuid
     
 Retrieves the available public information
 
-    POST /auction/public_UUID
+    POST /auction/:public_UUID
 
-Creates a new public uuid for referrals. TBD
+Creates a new public uuid for referrals. TODO
 
 Bidding:
 --------
 
-    PUT /auction/public_uuid
+    PUT /auction/:public_uuid
 
 Performs a bid.  Parameters: 
 
@@ -88,11 +99,11 @@ erases everything. You have been warned.
 Feature requests
 ================
 
-    GET /auctions/auction_id/pictures/picture_id
+    GET /auctions/:auction_id/pictures/:picture_id
 rationale: for mobile app, to load/retrieve one pic at the time
 
-    GET /auction/public_uuid/media 
+    GET /auction/:public_uuid/media 
 
+TODO
 retrieves all media files (images, video, etc.)
 parameters: the number of images (for mobile?)
-TBD

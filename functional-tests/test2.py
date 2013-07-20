@@ -1,12 +1,14 @@
+import urllib
 import urllib2
-from nose.tools import with_setup
 import unittest
 import json
 import mimetools
 import collections
 
 baseurl = 'http://localhost:8080' 
-
+import os
+if os.getenv("BASEURL") is not None:
+    baseurl = os.getenv("BASEURL")
 
 # beautiful, but no longer used. Yet, worth keeping ;)
 # from http://stackoverflow.com/a/1254499/204634
@@ -53,7 +55,8 @@ class testFiresell(unittest.TestCase):
     #    assert (status == 200)
 
     def test_10createAuction(self):
-        auction = {'desc': 'test desc'}
+        auction = {'itemDesc': 'test desc',
+                'itemName': 'test name'}
         data = json.dumps(auction)
         req = urllib2.Request(baseurl + '/auction', 
                 data, 
@@ -78,6 +81,35 @@ class testFiresell(unittest.TestCase):
                 auction['admin_url'] = url
         # save
         self.createdAuctions.append(auction)
+
+    # ugly; do properly, merge with above
+    def test_15createAuctionNonJson(self):
+        auction = {'itemDesc': 'test desc non-json',
+                'itemName': 'test item name'}
+        data = urllib.urlencode(auction)
+        req = urllib2.Request(baseurl + '/auction', data, 
+                {'Content-Type': 'application/x-www-form-urlencoded'})
+        f = urllib2.urlopen(req)
+        # status
+        status = f.getcode()
+        # headers
+        meta = f.info()
+        # data
+        response = f.read()
+        f.close()
+
+        assert (status == 201) # resource created
+        # find the new location and save it
+        for header in meta.headers:
+            if 'Location: ' in header:
+                # get whatever it's after 'Location: '
+                # returns a list, so get the second item
+                url = header.split('Location: ', 1)[1]
+                url = url.rstrip('\r\n')
+                auction['admin_url'] = url
+        # save
+        self.createdAuctions.append(auction)
+
         
     # testing the Location result
     def test_20getAuctionAdminInfo(self):
@@ -93,9 +125,9 @@ class testFiresell(unittest.TestCase):
             response = f.read()
             f.close()
             assert (status == 200) # hit
-            desc = json.loads(response)
-            assert (desc['desc'] == auction['desc'])
-            auction['public_urls'] = desc['public_urls']
+            resp = json.loads(response)
+            assert (resp['itemDesc'] == auction['itemDesc'])
+            auction['public_urls'] = resp['public_urls']
 
     def test_30getAuctionInfo(self):
         for auction in self.createdAuctions:
@@ -112,7 +144,7 @@ class testFiresell(unittest.TestCase):
                 f.close()
                 assert (status == 200) # hit
                 data = json.loads(response)
-                assert (data['desc'] == auction['desc'])
+                assert (data['itemDesc'] == auction['itemDesc'])
 
     # make bid
     def test_40bid(self, 
